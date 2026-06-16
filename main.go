@@ -235,7 +235,7 @@ const dashboardHTML = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K8s Dashboard</title>
+<title>Kubernetes Dashboard</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
@@ -274,7 +274,7 @@ tr:hover { background: #263548; }
 <body>
 <div class="header">
   <div>
-    <h1>Kubernetes Dashboard</h1>
+    <h1>K8s Dashboard</h1>
     <div class="timestamp">Last updated: {{.Timestamp}}</div>
   </div>
   <div class="stats">
