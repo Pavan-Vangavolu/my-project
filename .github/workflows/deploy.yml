@@ -1,8 +1,8 @@
-name: Build and Push to ECR
+name: Build, Push and Scan ECR Image
 
 on:
   push:
-    branches: 
+    branches:
       - develop
 
 env:
@@ -12,9 +12,10 @@ env:
 permissions:
   id-token: write
   contents: read
+  security-events: write
 
 jobs:
-  build-and-push:
+  build-and-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,3 +39,17 @@ jobs:
           docker tag $ECR_REPOSITORY:$IMAGE_TAG 945766716810.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
           docker push 945766716810.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
           docker push 945766716810.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
+
+      - name: Run Trivy vulnerability scanner on ECR image
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: 945766716810.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH,MEDIUM
+          exit-code: 0
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
