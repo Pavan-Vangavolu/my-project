@@ -41,7 +41,7 @@ jobs:
           docker push 945766716810.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:latest
 
       - name: Run Trivy vulnerability scanner on ECR image
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           format: sarif
