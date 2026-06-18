@@ -43,7 +43,7 @@ jobs:
       - name: Run Trivy vulnerability scanner on ECR image
         uses: aquasecurity/trivy-action@0.29.0
         with:
-          image-ref: 945766716810.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+          image-ref: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
           format: sarif
           output: trivy-results.sarif
           severity: CRITICAL,HIGH,MEDIUM
