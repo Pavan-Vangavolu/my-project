@@ -1,0 +1,68 @@
+
+name: Local Ubuntu System Information
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  system-info:
+    name: Inspect My Ubuntu Runner
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Display user information
+        run: |
+          echo "===== CURRENT USER ====="
+          whoami
+          id
+
+      - name: Display operating system information
+        run: |
+          echo "===== HOSTNAME ====="
+          hostname
+
+          echo "===== ARCHITECTURE ====="
+          uname -m
+
+          echo "===== KERNEL DETAILS ====="
+          uname -a
+
+          echo "===== UBUNTU VERSION ====="
+          cat /etc/os-release
+
+      - name: Display directories
+        run: |
+          echo "===== CURRENT DIRECTORY ====="
+          pwd
+
+          echo "===== HOME DIRECTORY ====="
+          echo "$HOME"
+
+          echo "===== DIRECTORY CONTENTS ====="
+          ls -la
+
+      - name: Display disk and memory
+        run: |
+          echo "===== DISK SPACE ====="
+          df -h
+
+          echo "===== MEMORY ====="
+          free -h
+
+      - name: Display network interfaces
+        run: |
+          echo "===== NETWORK INTERFACES ====="
+          ip addr
+
+      - name: Display Linux account information
+        run: |
+          echo "===== CURRENT RUNNER ACCOUNT ====="
+          getent passwd "$(whoami)"
+
+          echo "===== ALL LOCAL ACCOUNT ENTRIES ====="
+          cat /etc/passwd
